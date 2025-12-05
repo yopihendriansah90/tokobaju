@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --brand-primary: #4f8a63;
+    --brand-dark: #3f6d51;
+    --brand-cream: #f6f3eb;
+}
+
+body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+.brand-heading {
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    letter-spacing: 0.08em;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+}
+
+.card-soft {
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
