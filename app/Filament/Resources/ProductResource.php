@@ -40,7 +40,12 @@ class ProductResource extends Resource
                             ->unique(Product::class, 'slug', ignoreRecord: true),
                         
                         Forms\Components\RichEditor::make('description')
+                            ->label('Deskripsi Lengkap')
                             ->columnSpanFull(),
+                        Forms\Components\Textarea::make('highlights')
+                            ->label('Keunggulan / Highlight')
+                            ->rows(4)
+                            ->helperText('Isi poin-poin keunggulan singkat, pisahkan dengan baris baru.'),
                     ])->columns(2),
 
                     Forms\Components\Section::make('Pricing & Inventory')->schema([
@@ -83,6 +88,10 @@ class ProductResource extends Resource
                     ->collection('products'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('highlights')
+                    ->label('Keunggulan')
+                    ->limit(40)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('category.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')

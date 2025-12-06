@@ -70,12 +70,28 @@
                 </div>
 
                 <div class="border-t pt-4 space-y-3">
-                    <h3 class="font-semibold text-gray-800">Fitur Produk</h3>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Kualitas bahan premium dan adem.</li>
-                        <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Warna netral mudah dipadukan.</li>
-                        <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Cocok untuk aktivitas harian dan acara.</li>
-                    </ul>
+                    <h3 class="font-semibold text-gray-800">Keunggulan Produk</h3>
+                    @if($product->highlights)
+                        @php
+                            $highlights = preg_split('/\r\n|\r|\n/', trim($product->highlights));
+                        @endphp
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            @foreach($highlights as $item)
+                                @if(strlen(trim($item)) > 0)
+                                    <li class="flex items-start gap-2">
+                                        <span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span>
+                                        <span>{{ trim($item) }}</span>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @else
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Kualitas bahan premium dan adem.</li>
+                            <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Warna netral mudah dipadukan.</li>
+                            <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Cocok untuk aktivitas harian dan acara.</li>
+                        </ul>
+                    @endif
                 </div>
 
                 <div class="border-t pt-4 space-y-3">
