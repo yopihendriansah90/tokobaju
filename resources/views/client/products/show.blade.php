@@ -34,12 +34,24 @@
             </div>
 
             {{-- Product media --}}
-            <div class="mt-6 bg-white rounded-3xl shadow-xl overflow-hidden">
-                @if($product->hasMedia('products'))
-                    <img src="{{ $product->getFirstMediaUrl('products') }}" alt="{{ $product->name }}" class="w-full h-80 object-cover">
-                @else
-                    <div class="w-full h-80 bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
-                @endif
+            <div class="mt-6 lg:mt-8">
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex justify-center">
+                    <div class="w-full max-w-sm sm:max-w-md lg:max-w-lg">
+                        @if($product->hasMedia('products'))
+                            <div class="aspect-[3/4] w-full">
+                                <img
+                                    src="{{ $product->getFirstMediaUrl('products') }}"
+                                    alt="{{ $product->name }}"
+                                    class="w-full h-full object-cover object-center"
+                                >
+                            </div>
+                        @else
+                            <div class="aspect-[3/4] w-full bg-gray-100 flex items-center justify-center text-gray-400">
+                                No Image
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
 
             {{-- Info --}}
@@ -69,9 +81,10 @@
                     </div>
                 </div>
 
-                <div class="border-t pt-4 space-y-3">
-                    <h3 class="font-semibold text-gray-800">Keunggulan Produk</h3>
-                    @if($product->highlights)
+                {{-- keunggulan --}}
+                @if($product->highlights)
+                    <div class="border-t pt-4 space-y-3">
+                        <h3 class="font-semibold text-gray-800">Keunggulan Produk</h3>
                         @php
                             $highlights = preg_split('/\r\n|\r|\n/', trim($product->highlights));
                         @endphp
@@ -85,15 +98,10 @@
                                 @endif
                             @endforeach
                         </ul>
-                    @else
-                        <ul class="text-sm text-gray-700 space-y-1">
-                            <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Kualitas bahan premium dan adem.</li>
-                            <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Warna netral mudah dipadukan.</li>
-                            <li class="flex items-start gap-2"><span class="mt-1 block w-2 h-2 rounded-full bg-[#4f8a63]"></span> Cocok untuk aktivitas harian dan acara.</li>
-                        </ul>
-                    @endif
-                </div>
+                    </div>
+                @endif
 
+                {{-- akhri keunggulan --}}
                 <div class="border-t pt-4 space-y-3">
                     <h3 class="font-semibold text-gray-800">Produk Terkait</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
