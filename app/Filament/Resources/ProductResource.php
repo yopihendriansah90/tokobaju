@@ -38,7 +38,7 @@ class ProductResource extends Resource
                             ->disabled()
                             ->dehydrated()
                             ->unique(Product::class, 'slug', ignoreRecord: true),
-                        
+
                         Forms\Components\RichEditor::make('description')
                             ->label('Deskripsi Lengkap')
                             ->columnSpanFull(),
@@ -46,7 +46,7 @@ class ProductResource extends Resource
                             ->label('Keunggulan / Highlight')
                             ->rows(4)
                             ->helperText('Isi poin-poin keunggulan singkat, pisahkan dengan baris baru.'),
-                    ])->columns(2),
+                    ])->columnSpanFull(),
 
                     Forms\Components\Section::make('Pricing & Inventory')->schema([
                         Forms\Components\TextInput::make('price')
@@ -59,7 +59,7 @@ class ProductResource extends Resource
                             ->default(0),
                     ])->columns(2),
                 ])->columnSpan(2),
-                
+
                 Forms\Components\Group::make()->schema([
                     Forms\Components\Section::make('Image')->schema([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('media')
