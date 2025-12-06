@@ -4,12 +4,21 @@
 <header class="hidden lg:block fixed top-0 left-0 right-0 z-40">
     <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between bg-white/90 backdrop-blur shadow-lg rounded-b-3xl">
         <div class="flex items-center space-x-3">
-            <div class="w-12 h-12 rounded-full border border-[#4f8a63] flex items-center justify-center text-[#4f8a63] bg-[#f6f3eb]">
-                <span class="text-xl font-semibold tracking-[0.2em]">D</span>
+            @php
+                $logoUrl = isset($siteSettings) && $siteSettings?->hasMedia('logo') ? $siteSettings->getFirstMediaUrl('logo') : null;
+            @endphp
+            <div class="w-12 h-12 rounded-full border border-[#4f8a63] flex items-center justify-center text-[#4f8a63] bg-[#f6f3eb] overflow-hidden">
+                @if($logoUrl)
+                    <img src="{{ $logoUrl }}" alt="{{ $siteSettings->site_name ?? 'Logo' }}" class="w-full h-full object-contain">
+                @else
+                    <span class="text-xl font-semibold tracking-[0.2em]">D</span>
+                @endif
             </div>
             <div>
-                <p class="text-xs uppercase tracking-[0.18em] text-gray-500">Disty Mall</p>
-                <h1 class="brand-heading text-lg text-[#4f8a63]">Tampil Syar'i Gaya Masa Kini</h1>
+                <p class="text-xs uppercase tracking-[0.18em] text-gray-500">{{ $siteSettings->site_name ?? 'Disty Mall' }}</p>
+                <h1 class="brand-heading text-lg text-[#4f8a63]">
+                    {{ $siteSettings->site_title ?? "Tampil Syar'i Gaya Masa Kini" }}
+                </h1>
             </div>
         </div>
         <nav class="flex items-center space-x-4 text-sm font-medium">

@@ -71,13 +71,24 @@
                 </a>
             </div>
 
-            {{-- Logo --}}
+            {{-- Logo / Brand --}}
             <div class="flex flex-col items-center text-center space-y-2">
-                <div class="w-20 h-20 rounded-full border border-white/60 flex items-center justify-center bg-white/10">
-                    <span class="text-3xl font-semibold tracking-[6px]">D</span>
+                @php
+                    $logoUrl = isset($siteSettings) && $siteSettings?->hasMedia('logo') ? $siteSettings->getFirstMediaUrl('logo') : null;
+                @endphp
+                <div class="w-20 h-20 rounded-full border border-white/60 flex items-center justify-center bg-white/10 overflow-hidden">
+                    @if($logoUrl)
+                        <img src="{{ $logoUrl }}" alt="{{ $siteSettings->site_name ?? 'Logo' }}" class="w-full h-full object-contain">
+                    @else
+                        <span class="text-3xl font-semibold tracking-[6px]">D</span>
+                    @endif
                 </div>
-                <h1 class="text-2xl brand-heading">DISTY MALL</h1>
-                <p class="text-sm text-white/80">Tampil Syar'i Gaya Masa Kini</p>
+                <h1 class="text-2xl brand-heading">
+                    {{ $siteSettings->site_name ?? 'DISTY MALL' }}
+                </h1>
+                <p class="text-sm text-white/80">
+                    {{ $siteSettings->site_title ?? "Tampil Syar'i Gaya Masa Kini" }}
+                </p>
             </div>
 
             {{-- Banner slider --}}
