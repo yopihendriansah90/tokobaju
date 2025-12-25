@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('q');
-        $categorySlug = $request->query('category');
+        $categoryId = $request->query('category');
         $sort = $request->query('sort', 'latest');
         $featured = $request->query('featured');
         $inStock = $request->query('in_stock');
@@ -24,10 +24,8 @@ class ProductController extends Controller
                         ->orWhere('description', 'like', '%' . $search . '%');
                 });
             })
-            ->when($categorySlug, function ($query) use ($categorySlug) {
-                $query->whereHas('category', function ($categoryQuery) use ($categorySlug) {
-                    $categoryQuery->where('slug', $categorySlug);
-                });
+            ->when($categoryId, function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
             })
             ->when($featured !== null, function ($query) use ($featured) {
                 $query->where('is_featured', (bool) $featured);
@@ -46,6 +44,8 @@ class ProductController extends Controller
 
         return response()->json([
             'data' => $products->getCollection()->map(function (Product $product) {
+                $images = $product->getMedia('products')->map(fn ($media) => $media->getUrl())->values();
+
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
@@ -53,7 +53,8 @@ class ProductController extends Controller
                     'price' => (string) $product->price,
                     'stock' => $product->stock,
                     'is_featured' => (bool) $product->is_featured,
-                    'thumbnail_url' => $product->getFirstMediaUrl('products') ?: null,
+                    'thumbnail_url' => $images->first(),
+                    'images' => $images,
                     'category' => $product->category ? [
                         'id' => $product->category->id,
                         'name' => $product->category->name,

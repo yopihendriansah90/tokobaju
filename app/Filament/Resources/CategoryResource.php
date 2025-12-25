@@ -10,9 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class CategoryResource extends Resource
 {
@@ -38,6 +38,11 @@ class CategoryResource extends Resource
                     ->disabled()
                     ->dehydrated()
                     ->unique(Category::class, 'slug', ignoreRecord: true),
+
+                SpatieMediaLibraryFileUpload::make('category_icon')
+                    ->label('Icon')
+                    ->collection('category_icon')
+                    ->image(),
             ]);
     }
 
@@ -45,6 +50,9 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('category_icon')
+                    ->collection('category_icon')
+                    ->label('Icon'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug'),

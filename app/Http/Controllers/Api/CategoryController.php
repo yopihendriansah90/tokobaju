@@ -20,6 +20,7 @@ class CategoryController extends Controller
                     'name' => $category->name,
                     'slug' => $category->slug,
                     'products_count' => $category->products_count,
+                    'icon_url' => $category->getFirstMediaUrl('category_icon') ?: null,
                 ];
             }),
         ]);

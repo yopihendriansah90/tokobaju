@@ -65,6 +65,8 @@ class ProductResource extends Resource
                         Forms\Components\SpatieMediaLibraryFileUpload::make('media')
                             ->collection('products')
                             ->image()
+                            ->multiple()
+                            ->reorderable()
                             ->required(),
                     ]),
                     Forms\Components\Section::make('Associations')->schema([
