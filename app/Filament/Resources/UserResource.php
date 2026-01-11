@@ -49,6 +49,11 @@ class UserResource extends Resource
                             ->label('Alamat')
                             ->rows(3)
                             ->maxLength(500),
+                        Forms\Components\Select::make('roles')
+                            ->label('Role')
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload(),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true),
@@ -74,6 +79,11 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('address')
                     ->label('Alamat')
                     ->limit(30)
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Role')
+                    ->badge()
+                    ->separator(', ')
                     ->toggleable(),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Aktif'),
