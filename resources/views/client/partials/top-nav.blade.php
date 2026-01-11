@@ -24,6 +24,11 @@
         <nav class="flex items-center space-x-4 text-sm font-medium">
             <a href="{{ route('home') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('home') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Home</a>
             <a href="{{ route('client.products.index') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('client.products.*') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Produk</a>
+            @auth
+                <a href="{{ route('orders.index') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('orders.*') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Pesanan</a>
+            @else
+                <a href="{{ route('login') }}" class="px-3 py-2 rounded-full text-gray-700 hover:bg-[#dce9e0]">Pesanan</a>
+            @endauth
             <a href="{{ route('client.about') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('client.about') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Tentang</a>
             @auth
                 <form action="{{ route('logout') }}" method="POST" class="inline">

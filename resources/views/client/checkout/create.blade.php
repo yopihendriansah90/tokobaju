@@ -31,13 +31,10 @@
             <div class="bg-white/10 border border-white/15 rounded-2xl p-4 space-y-3">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-semibold">Transfer Bank</p>
-                        <p class="text-xs text-white/80">Upload bukti transfer agar admin dapat konfirmasi.</p>
+                        <p class="text-sm font-semibold">Langkah 1: Checkout</p>
+                        <p class="text-xs text-white/80">Lengkapi data pengiriman, lalu lanjut ke pembayaran.</p>
                     </div>
-                    <span class="px-3 py-1 rounded-full bg-white/20 text-xs">Konfirmasi Manual</span>
-                </div>
-                <div class="text-xs text-white/80">
-                    Rekening contoh: BCA 123456789 a.n Disty Mall
+                    <span class="px-3 py-1 rounded-full bg-white/20 text-xs">Pembayaran di langkah 2</span>
                 </div>
             </div>
 
@@ -70,7 +67,7 @@
                     </div>
                     <div class="flex items-center justify-between text-gray-600">
                         <span>Ongkir</span>
-                        <span>Akan diinformasikan</span>
+                        <span>Sesuai metode pengiriman</span>
                     </div>
                 </div>
             </div>
@@ -80,17 +77,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-gray-800">Nama Lengkap</label>
-                        <input type="text" name="customer_name" value="{{ old('customer_name') }}" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
+                        <input type="text" name="customer_name" value="{{ old('customer_name', auth()->user()->name ?? '') }}" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
                         @error('customer_name')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-gray-800">Email</label>
-                        <input type="email" name="customer_email" value="{{ old('customer_email') }}" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
+                        <input type="email" name="customer_email" value="{{ old('customer_email', auth()->user()->email ?? '') }}" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
                         @error('customer_email')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-gray-800">No. Telepon</label>
                         <input type="text" name="customer_phone" value="{{ old('customer_phone') }}" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
+                        <p class="text-xs text-gray-500">Format: angka, spasi, tanda +, (), atau -.</p>
                         @error('customer_phone')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
                     <div class="space-y-2 md:col-span-2">
@@ -98,23 +96,23 @@
                         <textarea name="shipping_address" rows="3" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>{{ old('shipping_address') }}</textarea>
                         @error('shipping_address')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
-                    <div class="space-y-2 md:col-span-2">
-                        <label class="text-sm font-semibold text-gray-800">Catatan Pembayaran (Opsional)</label>
-                        <textarea name="payment_notes" rows="2" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]">{{ old('payment_notes') }}</textarea>
-                        @error('payment_notes')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
-                    </div>
-                    <div class="space-y-2 md:col-span-2">
-                        <label class="text-sm font-semibold text-gray-800">Upload Bukti Transfer (Opsional)</label>
-                        <input type="file" name="payment_proof" accept="image/*,.pdf" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]">
-                        <p class="text-xs text-gray-500">Format jpg, png, atau pdf. Maks 4MB.</p>
-                        @error('payment_proof')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-gray-800">Metode Pengiriman</label>
+                        <select name="shipping_method" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
+                            @foreach($shippingOptions as $key => $option)
+                                <option value="{{ $key }}" @selected(old('shipping_method', array_key_first($shippingOptions)) === $key)>
+                                    {{ $option['label'] }} - Rp {{ number_format($option['cost'], 0, ',', '.') }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('shipping_method')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between pt-2">
-                    <p class="text-sm text-gray-600">Dengan melanjutkan, Anda menyetujui pembayaran via transfer manual.</p>
+                    <p class="text-sm text-gray-600">Setelah checkout, Anda akan melihat instruksi pembayaran.</p>
                     <button type="submit" class="px-5 py-3 bg-[#4f8a63] text-white font-semibold rounded-xl shadow hover:bg-[#3f704f] transition">
-                        Konfirmasi Pesanan
+                        Lanjut ke Pembayaran
                     </button>
                 </div>
             </form>

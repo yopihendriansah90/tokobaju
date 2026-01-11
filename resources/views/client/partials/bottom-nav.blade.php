@@ -30,6 +30,14 @@
             @endif
             <span class="text-[11px] font-medium tracking-wide">Keranjang</span>
         </a>
+        <a href="{{ route('orders.index') }}" class="group flex flex-col items-center gap-1 rounded-2xl px-3 py-2 transition {{ request()->routeIs('orders.*') ? 'bg-white/15 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full {{ request()->routeIs('orders.*') ? 'bg-white/15' : 'bg-white/5 group-hover:bg-white/10' }}">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 5h8M9 9h8M9 13h8M5 5h.01M5 9h.01M5 13h.01M5 17h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </span>
+            <span class="text-[11px] font-medium tracking-wide">Pesanan</span>
+        </a>
         <a href="{{ route('client.about') }}" class="group flex flex-col items-center gap-1 rounded-2xl px-3 py-2 transition {{ request()->routeIs('client.about') ? 'bg-white/15 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
             <span class="flex h-10 w-10 items-center justify-center rounded-full {{ request()->routeIs('client.about') ? 'bg-white/15' : 'bg-white/5 group-hover:bg-white/10' }}">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

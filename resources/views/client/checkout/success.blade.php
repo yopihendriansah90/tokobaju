@@ -7,7 +7,7 @@
                 </svg>
             </div>
             <h1 class="text-xl font-semibold">Pesanan Berhasil Dibuat</h1>
-            <p class="text-sm text-gray-600">Kami akan memproses setelah pembayaran dikonfirmasi. Simpan nomor referensi Anda.</p>
+            <p class="text-sm text-gray-600">Simpan nomor referensi Anda dan lanjutkan proses pembayaran.</p>
             <div class="bg-gray-50 rounded-xl p-4 text-left space-y-1">
                 <div class="flex justify-between text-sm">
                     <span class="text-gray-600">Referensi</span>
@@ -23,8 +23,13 @@
                 </div>
             </div>
             <div class="space-y-2">
-                <a href="{{ route('home') }}" class="block w-full bg-[#4f8a63] text-white rounded-xl py-3 font-semibold">Kembali ke Beranda</a>
-                <a href="{{ route('client.products.index') }}" class="block w-full bg-white text-[#4f8a63] border border-[#4f8a63] rounded-xl py-3 font-semibold">Lihat Produk Lain</a>
+                @if($order->payment_status === 'awaiting_payment')
+                    <a href="{{ route('orders.payment', $order) }}" class="block w-full bg-[#4f8a63] text-white rounded-xl py-3 font-semibold">Lanjutkan Pembayaran</a>
+                    <a href="{{ route('orders.index') }}" class="block w-full bg-white text-[#4f8a63] border border-[#4f8a63] rounded-xl py-3 font-semibold">Lihat Riwayat Transaksi</a>
+                @else
+                    <a href="{{ route('orders.index') }}" class="block w-full bg-[#4f8a63] text-white rounded-xl py-3 font-semibold">Lihat Riwayat Transaksi</a>
+                    <a href="{{ route('home') }}" class="block w-full bg-white text-[#4f8a63] border border-[#4f8a63] rounded-xl py-3 font-semibold">Kembali ke Beranda</a>
+                @endif
             </div>
         </div>
     </div>

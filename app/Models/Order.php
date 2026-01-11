@@ -20,6 +20,8 @@ class Order extends Model implements HasMedia
         'customer_email',
         'customer_phone',
         'shipping_address',
+        'shipping_method',
+        'shipping_cost',
         'status',
         'total_amount',
         'payment_method',
