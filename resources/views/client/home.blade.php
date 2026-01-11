@@ -208,33 +208,47 @@
             </section>
 
             {{-- Product grid with filters --}}
-            <section class="space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <h2 class="brand-heading text-lg">Jelajahi Produk</h2>
-                    <form action="{{ route('home') }}" method="GET" class="flex flex-wrap gap-2">
+            <section class="space-y-5">
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-end justify-between">
+                        <div class="space-y-1">
+                            <p class="text-[11px] uppercase tracking-[0.2em] text-white/60">Jelajahi</p>
+                            <h2 class="brand-heading text-2xl">Produk</h2>
+                        </div>
+                        <span class="text-xs text-white/70 hidden sm:inline">Filter cepat</span>
+                    </div>
+                    <form action="{{ route('home') }}" method="GET" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-[1.2fr_1fr_auto] gap-3 rounded-2xl bg-white/95 p-3 shadow-lg ring-1 ring-white/60">
                         <input type="hidden" name="q" value="{{ $search }}">
-                        <select name="category" class="rounded-full bg-white/90 text-gray-800 text-sm px-3 py-2 focus:ring-2 focus:ring-white/60 focus:outline-none">
-                            <option value="">Semua Kategori</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->slug }}" @selected($categorySlug === $category->slug)>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        <select name="sort" class="rounded-full bg-white/90 text-gray-800 text-sm px-3 py-2 focus:ring-2 focus:ring-white/60 focus:outline-none">
-                            <option value="latest" @selected($sort === 'latest')>Terbaru</option>
-                            <option value="price_asc" @selected($sort === 'price_asc')>Harga Terendah</option>
-                            <option value="price_desc" @selected($sort === 'price_desc')>Harga Tertinggi</option>
-                        </select>
-                        <button type="submit" class="rounded-full bg-white text-[#4f8a63] text-sm font-semibold px-4 py-2 shadow hover:bg-white/90 transition">Terapkan</button>
+                        <div class="col-span-2 sm:col-span-1 space-y-1">
+                            <label class="text-[11px] uppercase tracking-wide text-gray-500">Kategori</label>
+                            <select name="category" class="w-full rounded-xl bg-white text-gray-800 text-sm px-3 py-2.5 border border-gray-200 focus:ring-2 focus:ring-[#4f8a63]/30 focus:border-[#4f8a63]/40 focus:outline-none">
+                                <option value="">Semua Kategori</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->slug }}" @selected($categorySlug === $category->slug)>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[11px] uppercase tracking-wide text-gray-500">Urutkan</label>
+                            <select name="sort" class="w-full rounded-xl bg-white text-gray-800 text-sm px-3 py-2.5 border border-gray-200 focus:ring-2 focus:ring-[#4f8a63]/30 focus:border-[#4f8a63]/40 focus:outline-none">
+                                <option value="latest" @selected($sort === 'latest')>Terbaru</option>
+                                <option value="price_asc" @selected($sort === 'price_asc')>Harga Terendah</option>
+                                <option value="price_desc" @selected($sort === 'price_desc')>Harga Tertinggi</option>
+                            </select>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1 lg:col-span-1 flex items-end">
+                            <button type="submit" class="w-full rounded-xl bg-[#4f8a63] text-white text-sm font-semibold px-4 py-2.5 shadow hover:bg-[#3f7453] transition">Terapkan</button>
+                        </div>
                     </form>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
                     @forelse($products as $product)
-                        <a href="{{ route('client.products.show', $product) }}" class="bg-white rounded-2xl card-soft overflow-hidden text-gray-900 hover:-translate-y-1 transition transform">
+                        <a href="{{ route('client.products.show', $product) }}" class="bg-white rounded-3xl card-soft overflow-hidden text-gray-900 shadow-md ring-1 ring-black/5 hover:-translate-y-1.5 hover:shadow-xl transition transform">
                             @if($product->hasMedia('products'))
-                                <img src="{{ $product->getFirstMediaUrl('products') }}" alt="{{ $product->name }}" class="w-full h-36 object-cover">
+                                <img src="{{ $product->getFirstMediaUrl('products') }}" alt="{{ $product->name }}" class="w-full h-40 object-cover">
                             @else
-                                <div class="w-full h-36 bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
+                                <div class="w-full h-40 bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
                             @endif
                             <div class="p-3 space-y-1">
                                 <p class="text-xs text-gray-500">{{ $product->category->name ?? 'Umum' }}</p>
