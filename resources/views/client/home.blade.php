@@ -156,13 +156,17 @@
                     <h2 class="brand-heading text-lg">Kategori</h2>
                     <a href="{{ route('client.products.index') }}" class="text-sm text-white/80 hover:text-white">Lihat semua</a>
                 </div>
-                <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
+                <div class="flex flex-nowrap gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 -mx-4 px-4 md:grid md:grid-cols-8 md:gap-3 md:overflow-visible md:pb-0 md:mx-0 md:px-0">
                     @forelse($categories as $category)
-                        <a href="{{ route('home', ['category' => $category->slug]) }}" class="flex flex-col items-center space-y-2">
-                            <div class="w-14 h-14 rounded-2xl bg-white text-[#4f8a63] flex items-center justify-center card-soft">
-                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 6v12m6-6H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
+                        <a href="{{ route('home', ['category' => $category->slug]) }}" class="flex flex-col items-center space-y-2 flex-none w-20 md:w-auto">
+                            <div class="w-16 h-16 rounded-full bg-white text-[#4f8a63] flex items-center justify-center card-soft overflow-hidden ring-2 ring-white/70">
+                                @if($category->hasMedia('category_icon'))
+                                    <img src="{{ $category->getFirstMediaUrl('category_icon') }}" alt="{{ $category->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 6v12m6-6H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                @endif
                             </div>
                             <span class="text-xs text-white/90 text-center">{{ $category->name }}</span>
                         </a>

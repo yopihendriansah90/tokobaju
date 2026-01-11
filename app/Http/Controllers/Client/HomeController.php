@@ -22,6 +22,7 @@ class HomeController extends Controller
             ->get();
 
         $categories = Category::query()
+            ->with('media')
             ->orderBy('name')
             ->get();
 
