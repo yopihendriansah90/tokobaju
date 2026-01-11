@@ -38,13 +38,24 @@
             </span>
             <span class="text-[11px] font-medium tracking-wide">Pesanan</span>
         </a>
-        <a href="{{ route('client.about') }}" class="group flex flex-col items-center gap-1 rounded-2xl px-3 py-2 transition {{ request()->routeIs('client.about') ? 'bg-white/15 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-            <span class="flex h-10 w-10 items-center justify-center rounded-full {{ request()->routeIs('client.about') ? 'bg-white/15' : 'bg-white/5 group-hover:bg-white/10' }}">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </span>
-            <span class="text-[11px] font-medium tracking-wide">Tentang</span>
-        </a>
+        @auth
+            <a href="{{ route('profile.edit') }}" class="group flex flex-col items-center gap-1 rounded-2xl px-3 py-2 transition {{ request()->routeIs('profile.edit') ? 'bg-white/15 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full {{ request()->routeIs('profile.edit') ? 'bg-white/15' : 'bg-white/5 group-hover:bg-white/10' }}">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
+                <span class="text-[11px] font-medium tracking-wide">Profil</span>
+            </a>
+        @else
+            <a href="{{ route('login') }}" class="group flex flex-col items-center gap-1 rounded-2xl px-3 py-2 transition text-white/80 hover:text-white hover:bg-white/10">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/5 group-hover:bg-white/10">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
+                <span class="text-[11px] font-medium tracking-wide">Profil</span>
+            </a>
+        @endauth
     </div>
 </nav>

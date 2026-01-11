@@ -87,13 +87,16 @@
                     </div>
                     <div class="space-y-2">
                         <label class="text-sm font-semibold text-gray-800">No. Telepon</label>
-                        <input type="text" name="customer_phone" value="{{ old('customer_phone') }}" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
+                        <input type="text" name="customer_phone" value="{{ old('customer_phone', auth()->user()->phone ?? '') }}" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>
                         <p class="text-xs text-gray-500">Format: angka, spasi, tanda +, (), atau -.</p>
                         @error('customer_phone')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
                     <div class="space-y-2 md:col-span-2">
                         <label class="text-sm font-semibold text-gray-800">Alamat Pengiriman</label>
-                        <textarea name="shipping_address" rows="3" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>{{ old('shipping_address') }}</textarea>
+                        <textarea name="shipping_address" rows="3" class="w-full rounded-xl border-gray-200 focus:ring-[#4f8a63]" required>{{ old('shipping_address', auth()->user()->address ?? '') }}</textarea>
+                        @if(empty(auth()->user()->address))
+                            <p class="text-xs text-gray-500">Alamat ini akan disimpan otomatis ke profil Anda.</p>
+                        @endif
                         @error('shipping_address')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
                     <div class="space-y-2">

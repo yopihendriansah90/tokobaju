@@ -56,6 +56,11 @@ class CheckoutController extends Controller
         $shippingCost = $shippingOptions[$validated['shipping_method']]['cost'] ?? 0;
         $insufficientStockProduct = null;
         $order = null;
+        $user = $request->user();
+
+        if ($user && empty($user->address) && ! empty($validated['shipping_address'])) {
+            $user->update(['address' => $validated['shipping_address']]);
+        }
 
         try {
             DB::transaction(function () use ($cartItems, $validated, $shippingCost, &$insufficientStockProduct, &$order) {

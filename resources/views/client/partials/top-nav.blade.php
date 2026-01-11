@@ -26,8 +26,10 @@
             <a href="{{ route('client.products.index') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('client.products.*') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Produk</a>
             @auth
                 <a href="{{ route('orders.index') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('orders.*') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Pesanan</a>
+                <a href="{{ route('profile.edit') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('profile.edit') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Profil</a>
             @else
                 <a href="{{ route('login') }}" class="px-3 py-2 rounded-full text-gray-700 hover:bg-[#dce9e0]">Pesanan</a>
+                <a href="{{ route('login') }}" class="px-3 py-2 rounded-full text-gray-700 hover:bg-[#dce9e0]">Profil</a>
             @endauth
             <a href="{{ route('client.about') }}" class="px-3 py-2 rounded-full {{ request()->routeIs('client.about') ? 'bg-[#4f8a63] text-white' : 'text-gray-700 hover:bg-[#dce9e0]' }}">Tentang</a>
             @auth
