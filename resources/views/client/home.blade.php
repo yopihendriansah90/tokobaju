@@ -103,27 +103,28 @@
                 x-init="autoplay()"
                 class="relative"
             >
-                <div class="overflow-hidden rounded-3xl shadow-2xl border border-white/15">
+                <div class="relative mx-auto w-full max-w-6xl overflow-hidden rounded-3xl shadow-2xl border border-white/15">
                     <div class="flex transition-transform duration-500" :style="`transform: translateX(-${current * 100}%)`">
                         <template x-for="(item, index) in items" :key="index">
                             <div class="w-full flex-shrink-0">
-                                <div class="h-48 sm:h-56 relative">
+                                <div class="relative aspect-[6/5] sm:aspect-[16/9] lg:aspect-[21/9]">
                                     <template x-if="item.image">
                                         <img :src="item.image" class="w-full h-full object-cover" :alt="item.title">
                                     </template>
-                                    <div class="absolute inset-0 bg-gradient-to-r from-[#3f6d51]/80 to-transparent"></div>
-                                    <div class="absolute inset-0 p-5 flex flex-col justify-center max-w-lg">
-                                        <p class="text-xs uppercase tracking-[0.2em] text-white/80">Promo</p>
-                                        <h3 class="text-2xl font-semibold leading-tight mt-1" x-text="item.title"></h3>
-                                        <p class="text-sm text-white/80 mt-1" x-text="item.subtitle"></p>
-                                        <template x-if="item.cta_link">
-                                            <a :href="item.cta_link" class="mt-4 inline-flex items-center px-4 py-2 rounded-full bg-white text-[#4f8a63] text-sm font-semibold hover:bg-white/90 transition">
-                                                <span x-text="item.cta_text ?? 'Lihat Promo'"></span>
-                                                <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
-                                        </template>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-[#2f4f3a]/85 via-[#2f4f3a]/55 to-transparent"></div>
+                                    <div class="absolute inset-0 p-5 sm:p-6 lg:p-10 flex items-center">
+                                        <div class="max-w-xl space-y-2">
+                                            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight" x-text="item.title"></h3>
+                                            <p class="text-sm sm:text-base text-white/80" x-text="item.subtitle"></p>
+                                            <template x-if="item.cta_link">
+                                                <a :href="item.cta_link" class="mt-4 inline-flex items-center px-5 py-2.5 rounded-full bg-white text-[#4f8a63] text-sm font-semibold hover:bg-white/90 transition">
+                                                    <span x-text="item.cta_text ?? 'Lihat'"></span>
+                                                    <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    </svg>
+                                                </a>
+                                            </template>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
