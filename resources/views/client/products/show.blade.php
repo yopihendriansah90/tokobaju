@@ -34,22 +34,89 @@
             </div>
 
             {{-- Product media --}}
-            <div class="mt-6 lg:mt-8">
+            @php
+                $galleryItems = $product->getMedia('products')->map(function ($media) {
+                    return $media->getUrl();
+                })->values();
+            @endphp
+            <div class="mt-6 lg:mt-8" x-data="{
+                images: @js($galleryItems),
+                current: 0,
+                zoom: 1,
+                showLightbox: false,
+                setCurrent(index) { this.current = index; this.zoom = 1; },
+                openLightbox(index) { this.setCurrent(index); this.showLightbox = true; },
+                closeLightbox() { this.showLightbox = false; this.zoom = 1; },
+                zoomIn() { this.zoom = Math.min(this.zoom + 0.25, 3); },
+                zoomOut() { this.zoom = Math.max(this.zoom - 0.25, 1); },
+                wheelZoom(event) {
+                    if (!this.showLightbox) return;
+                    event.preventDefault();
+                    if (event.deltaY < 0) this.zoomIn();
+                    if (event.deltaY > 0) this.zoomOut();
+                }
+            }">
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex justify-center">
                     <div class="w-full max-w-sm sm:max-w-md lg:max-w-lg">
                         @if($product->hasMedia('products'))
-                            <div class="aspect-[3/4] w-full">
+                            <button type="button" class="aspect-square w-full relative" @click="openLightbox(current)">
                                 <img
-                                    src="{{ $product->getFirstMediaUrl('products') }}"
+                                    :src="images[current]"
                                     alt="{{ $product->name }}"
                                     class="w-full h-full object-cover object-center"
                                 >
-                            </div>
+                                <span class="absolute bottom-3 right-3 px-3 py-1 rounded-full text-xs font-medium bg-black/60 text-white">
+                                    Lihat
+                                </span>
+                            </button>
                         @else
-                            <div class="aspect-[3/4] w-full bg-gray-100 flex items-center justify-center text-gray-400">
+                            <div class="aspect-square w-full bg-gray-100 flex items-center justify-center text-gray-400">
                                 No Image
                             </div>
                         @endif
+                    </div>
+                </div>
+
+                @if($product->getMedia('products')->count() > 1)
+                    <div class="mt-4 flex gap-3 overflow-x-auto pb-2">
+                        <template x-for="(image, index) in images" :key="index">
+                            <button type="button"
+                                class="w-20 aspect-square rounded-xl overflow-hidden border"
+                                :class="current === index ? 'border-[#4f8a63]' : 'border-white/40'"
+                                @click="setCurrent(index)">
+                                <img :src="image" :alt="'{{ $product->name }} ' + (index + 1)" class="w-full h-full object-cover">
+                            </button>
+                        </template>
+                    </div>
+                @endif
+
+                <div
+                    x-show="showLightbox"
+                    x-transition.opacity
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4"
+                    @click.self="closeLightbox()"
+                    @wheel="wheelZoom($event)"
+                >
+                    <div class="relative w-full max-w-4xl">
+                        <div class="relative aspect-square bg-black rounded-2xl overflow-hidden">
+                            <img
+                                :src="images[current]"
+                                alt="{{ $product->name }}"
+                                class="w-full h-full object-contain transition-transform duration-200"
+                                :style="`transform: scale(${zoom});`"
+                            >
+                        </div>
+                        <div class="absolute -top-3 right-0 flex items-center gap-2">
+                            <button type="button" class="px-3 py-2 rounded-full bg-white text-gray-800 text-sm font-semibold" @click="zoomOut()">
+                                -
+                            </button>
+                            <button type="button" class="px-3 py-2 rounded-full bg-white text-gray-800 text-sm font-semibold" @click="zoomIn()">
+                                +
+                            </button>
+                            <button type="button" class="px-3 py-2 rounded-full bg-white text-gray-800 text-sm font-semibold" @click="closeLightbox()">
+                                Tutup
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,9 +175,9 @@
                         @forelse($relatedProducts as $related)
                             <a href="{{ route('client.products.show', $related) }}" class="bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
                                 @if($related->hasMedia('products'))
-                                    <img src="{{ $related->getFirstMediaUrl('products') }}" alt="{{ $related->name }}" class="w-full h-24 object-cover">
+                                    <img src="{{ $related->getFirstMediaUrl('products') }}" alt="{{ $related->name }}" class="w-full aspect-square object-cover">
                                 @else
-                                    <div class="w-full h-24 bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
+                                    <div class="w-full aspect-square bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
                                 @endif
                                 <div class="p-2">
                                     <p class="text-xs text-gray-500">{{ $related->category->name ?? 'Umum' }}</p>

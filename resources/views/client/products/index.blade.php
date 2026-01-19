@@ -73,22 +73,26 @@
             {{-- Product grid --}}
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
                 @forelse ($products as $product)
-                    <a href="{{ route('client.products.show', $product) }}" class="bg-white rounded-2xl shadow-lg overflow-hidden text-gray-900 hover:-translate-y-1 transition transform">
-                        @if($product->hasMedia('products'))
-                            <img src="{{ $product->getFirstMediaUrl('products') }}" alt="{{ $product->name }}" class="w-full h-40 object-cover">
-                        @else
-                            <div class="w-full h-40 bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
-                        @endif
-                        <div class="p-3 space-y-1">
-                            <p class="text-xs text-gray-500">{{ $product->category->name ?? 'Umum' }}</p>
-                            <h3 class="text-sm font-semibold line-clamp-2">{{ $product->name }}</h3>
+                    <a href="{{ route('client.products.show', $product) }}" class="group bg-white rounded-xl border border-gray-200 overflow-hidden text-gray-900 shadow-sm hover:shadow-md transition">
+                        <div class="relative">
+                            @if($product->hasMedia('products'))
+                                <img src="{{ $product->getFirstMediaUrl('products') }}" alt="{{ $product->name }}" class="w-full aspect-square object-cover">
+                            @else
+                                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center text-gray-400">No Image</div>
+                            @endif
+                            <span class="absolute top-2 left-2 text-[10px] uppercase bg-white/95 text-gray-700 border border-gray-200 px-2 py-0.5 rounded">
+                                {{ $product->category->name ?? 'Umum' }}
+                            </span>
+                        </div>
+                        <div class="p-3 space-y-1.5">
+                            <h3 class="text-sm font-medium leading-snug line-clamp-2">{{ $product->name }}</h3>
+                            <p class="text-base font-semibold text-[#e0462b]">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                             <div class="flex items-center text-yellow-500 text-xs">
                                 @for($i=0; $i<5; $i++)
                                     <svg class="h-4 w-4 {{ $i < 4 ? 'text-yellow-500' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.487 7.09l6.572-.955L10 0l2.941 6.135 6.572.955-4.768 4.654 1.123 6.545z"/></svg>
                                 @endfor
-                                <span class="ml-1 text-gray-500">(4.5)</span>
+                                <span class="ml-1 text-gray-500">4.5</span>
                             </div>
-                            <p class="text-base font-bold text-[#4f8a63]">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                         </div>
                     </a>
                 @empty
