@@ -95,53 +95,59 @@
             <section
                 x-data="{
                     current: 0,
+                    isDragging: false,
+                    startX: 0,
+                    delta: 0,
+                    sliderWidth: 0,
                     items: {{ $sliderItems->values()->toJson() }},
                     next() { this.current = (this.current + 1) % this.items.length },
                     prev() { this.current = (this.current - 1 + this.items.length) % this.items.length },
-                    autoplay() { setInterval(() => this.next(), 5000); }
+                    autoplay() { setInterval(() => this.next(), 5000); },
+                    beginDrag(event) {
+                        this.isDragging = true;
+                        this.startX = event.clientX;
+                        this.sliderWidth = event.currentTarget.clientWidth;
+                    },
+                    drag(event) {
+                        if (!this.isDragging) return;
+                        this.delta = event.clientX - this.startX;
+                    },
+                    endDrag() {
+                        if (!this.isDragging) return;
+                        const threshold = this.sliderWidth * 0.2;
+                        if (this.delta <= -threshold) this.next();
+                        if (this.delta >= threshold) this.prev();
+                        this.isDragging = false;
+                        this.delta = 0;
+                    }
                 }"
                 x-init="autoplay()"
                 class="relative"
             >
-                <div class="relative mx-auto w-full max-w-6xl overflow-hidden rounded-3xl shadow-2xl border border-white/15">
-                    <div class="flex transition-transform duration-500" :style="`transform: translateX(-${current * 100}%)`">
+                <div class="relative mx-auto w-full max-w-6xl overflow-hidden rounded-3xl shadow-2xl border border-white/15 touch-pan-y select-none"
+                     @pointerdown="beginDrag($event)"
+                     @pointermove="drag($event)"
+                     @pointerup="endDrag()"
+                     @pointercancel="endDrag()"
+                     @pointerleave="endDrag()">
+                    <div class="flex"
+                         :class="isDragging ? 'transition-none' : 'transition-transform duration-700 ease-out'"
+                         :style="`transform: translateX(calc(-${current * 100}% + ${delta}px))`">
                         <template x-for="(item, index) in items" :key="index">
                             <div class="w-full flex-shrink-0">
-                                <div class="relative aspect-[6/5] sm:aspect-[16/9] lg:aspect-[21/9]">
-                                    <template x-if="item.image">
+                                <div class="relative aspect-[16/9] lg:aspect-[3/1]">
+                                    <template x-if="item.cta_link">
+                                        <a :href="item.cta_link" class="block w-full h-full">
+                                            <img :src="item.image" class="w-full h-full object-cover" :alt="item.title">
+                                        </a>
+                                    </template>
+                                    <template x-if="!item.cta_link">
                                         <img :src="item.image" class="w-full h-full object-cover" :alt="item.title">
                                     </template>
-                                    <div class="absolute inset-0 bg-gradient-to-r from-[#2f4f3a]/85 via-[#2f4f3a]/55 to-transparent"></div>
-                                    <div class="absolute inset-0 p-5 sm:p-6 lg:p-10 flex items-center">
-                                        <div class="max-w-xl space-y-2">
-                                            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight" x-text="item.title"></h3>
-                                            <p class="text-sm sm:text-base text-white/80" x-text="item.subtitle"></p>
-                                            <template x-if="item.cta_link">
-                                                <a :href="item.cta_link" class="mt-4 inline-flex items-center px-5 py-2.5 rounded-full bg-white text-[#4f8a63] text-sm font-semibold hover:bg-white/90 transition">
-                                                    <span x-text="item.cta_text ?? 'Lihat'"></span>
-                                                    <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </a>
-                                            </template>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </template>
                     </div>
-                </div>
-                <div class="absolute inset-0 flex items-center justify-between px-3 pointer-events-none">
-                    <button @click="prev" class="w-9 h-9 rounded-full glass-panel flex items-center justify-center hover:bg-white/25 pointer-events-auto">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M15 19l-7-7 7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                    <button @click="next" class="w-9 h-9 rounded-full glass-panel flex items-center justify-center hover:bg-white/25 pointer-events-auto">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
                 </div>
                 <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
                     <template x-for="(item, index) in items" :key="index">

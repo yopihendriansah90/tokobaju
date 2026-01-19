@@ -15,7 +15,6 @@
                 @endif
             </div>
             <div>
-                <p class="text-xs uppercase tracking-[0.18em] text-gray-500">{{ $siteSettings->site_name ?? 'Disty Mall' }}</p>
                 <h1 class="brand-heading text-lg text-[#4f8a63]">
                     {{ $siteSettings->site_title ?? "Tampil Syar'i Gaya Masa Kini" }}
                 </h1>
