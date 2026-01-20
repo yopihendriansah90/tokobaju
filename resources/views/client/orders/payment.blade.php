@@ -31,7 +31,7 @@
                     <span class="px-3 py-1 rounded-full bg-white/20 text-xs">Konfirmasi Manual</span>
                 </div>
                 <div class="text-xs text-white/80">
-                    Rekening contoh: BCA 123456789 a.n Disty Mall
+                    Rekening: BCA 123456789 a.n Disty Mall
                 </div>
             </div>
 
