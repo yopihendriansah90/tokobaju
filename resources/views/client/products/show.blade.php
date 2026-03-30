@@ -3,7 +3,7 @@
 @endphp
 
 <x-client-layout>
-    <div class="min-h-screen bg-[#4f8a63] bg-gradient-to-b from-[#4f8a63] to-[#3f6d51] text-white pb-28">
+    <div class="min-h-screen bg-[#4f8a63] bg-gradient-to-b from-[#4f8a63] to-[#3f6d51] text-white pb-36">
         <div class="max-w-5xl mx-auto px-4 pt-4">
             {{-- Header --}}
             <div class="flex items-center justify-between">
@@ -14,18 +14,11 @@
                 </a>
                 <h2 class="font-[Playfair_Display] text-lg tracking-wide">Product Detail</h2>
                 <div class="flex items-center space-x-2">
-                    @auth
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="px-3 py-2 rounded-full bg-white/20 border border-white/30 text-sm hover:bg-white/30 transition">Logout</button>
-                        </form>
-                    @else
+                    @guest
                         <a href="{{ route('login') }}" class="px-3 py-2 rounded-full bg-white/20 border border-white/30 text-sm hover:bg-white/30 transition">Login</a>
-                    @endauth
+                    @endguest
                     <a href="{{ route('cart.index') }}" class="relative flex items-center justify-center w-11 h-11 rounded-full bg-white/20 border border-white/30 backdrop-blur text-white hover:bg-white/30 transition">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13-.8 18.2C-1.5 20 0 22 2.2 22h14.6c2.2 0 3.7-2 2.9-3.8L17 13H7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                        <x-emblem-cart class="h-5 w-5" />
                         @if($cartCount)
                             <span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-semibold rounded-full px-2 py-0.5">{{ $cartCount }}</span>
                         @endif
@@ -197,10 +190,10 @@
         <div class="fixed bottom-0 left-0 w-full bg-white shadow-2xl border-t border-gray-200 p-4 z-50">
             <div class="max-w-5xl mx-auto flex items-center gap-3">
                 @if($product->stock > 0)
-                    <form action="{{ route('cart.store', $product) }}" method="POST" class="flex-1">
+                    <form action="{{ route('cart.store', $product) }}" method="POST" class="shrink-0">
                         @csrf
-                        <button type="submit" class="w-full px-4 py-3 border-2 border-[#4f8a63] text-[#4f8a63] font-semibold rounded-xl hover:bg-[#4f8a63] hover:text-white transition">
-                            Tambahkan ke Keranjang
+                        <button type="submit" aria-label="Tambah ke Keranjang" class="w-12 h-12 inline-flex items-center justify-center rounded-xl text-[#4f8a63] hover:bg-[#4f8a63]/10 transition">
+                            <x-emblem-cart class="h-6 w-6" />
                         </button>
                     </form>
                     <form action="{{ route('cart.store', $product) }}" method="POST" class="flex-1">

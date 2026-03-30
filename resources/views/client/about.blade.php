@@ -1,5 +1,5 @@
 <x-client-layout>
-    <div class="min-h-screen bg-gradient-to-b from-[#4f8a63] via-[#457555] to-[#3f6d51] text-white pb-24">
+    <div class="min-h-screen bg-gradient-to-b from-[#4f8a63] via-[#457555] to-[#3f6d51] text-white pb-32">
         <div class="max-w-4xl mx-auto px-4 pt-10 space-y-6">
             <div class="flex items-center justify-between">
                 <a href="{{ route('home') }}" class="w-11 h-11 flex items-center justify-center rounded-full glass-panel">

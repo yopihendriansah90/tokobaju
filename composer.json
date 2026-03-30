@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "bezhansalleh/filament-shield": "^3.9",
+        "codeat3/blade-emblemicons": "^1.6",
         "filament/filament": "^3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "laravel/framework": "^11.31",

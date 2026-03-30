@@ -3,7 +3,7 @@
 @endphp
 
 <x-client-layout>
-    <div class="min-h-screen bg-[#4f8a63] bg-gradient-to-b from-[#4f8a63] to-[#3f6d51] text-white pb-24">
+    <div class="min-h-screen bg-[#4f8a63] bg-gradient-to-b from-[#4f8a63] to-[#3f6d51] text-white pb-32">
         <div class="max-w-5xl mx-auto px-4 pt-4 space-y-4">
             <div class="flex items-center justify-between">
                 <a href="{{ route('home') }}" class="w-11 h-11 flex items-center justify-center rounded-full bg-white/20 border border-white/30 backdrop-blur">
@@ -18,10 +18,6 @@
                             <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </a>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="px-3 py-2 rounded-full bg-white/20 border border-white/30 text-sm hover:bg-white/30 transition">Logout</button>
-                    </form>
                 </div>
             </div>
 

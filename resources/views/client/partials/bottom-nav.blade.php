@@ -21,9 +21,7 @@
         </a>
         <a href="{{ route('cart.index') }}" class="group relative flex flex-col items-center gap-1 rounded-2xl px-3 py-2 transition {{ request()->routeIs('cart.*') || request()->routeIs('checkout.*') ? 'bg-white/15 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
             <span class="flex h-10 w-10 items-center justify-center rounded-full {{ request()->routeIs('cart.*') || request()->routeIs('checkout.*') ? 'bg-white/15' : 'bg-white/5 group-hover:bg-white/10' }}">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13-.8 18.2C-1.5 20 0 22 2.2 22h14.6c2.2 0 3.7-2 2.9-3.8L17 13H7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+                <x-emblem-cart class="h-5 w-5" />
             </span>
             @if($cartCount)
                 <span class="absolute right-2 top-1.5 bg-red-600 text-white text-[10px] font-semibold rounded-full px-2 py-0.5">{{ $cartCount }}</span>

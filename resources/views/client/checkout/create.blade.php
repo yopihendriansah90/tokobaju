@@ -3,7 +3,7 @@
 @endphp
 
 <x-client-layout>
-    <div class="min-h-screen bg-[#4f8a63] bg-gradient-to-b from-[#4f8a63] to-[#3f6d51] text-white pb-24">
+    <div class="min-h-screen bg-[#4f8a63] bg-gradient-to-b from-[#4f8a63] to-[#3f6d51] text-white pb-32">
         <div class="max-w-5xl mx-auto px-4 pt-4 space-y-4">
             <div class="flex items-center justify-between">
                 <a href="{{ route('cart.index') }}" class="w-11 h-11 flex items-center justify-center rounded-full bg-white/20 border border-white/30 backdrop-blur">
@@ -14,17 +14,11 @@
                 <h2 class="font-[Playfair_Display] text-lg tracking-wide">Checkout</h2>
                 <div class="flex items-center space-x-2">
                     <a href="{{ route('cart.index') }}" class="relative w-11 h-11 flex items-center justify-center rounded-full bg-white/20 border border-white/30 backdrop-blur">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13-.8 18.2C-1.5 20 0 22 2.2 22h14.6c2.2 0 3.7-2 2.9-3.8L17 13H7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                        <x-emblem-cart class="h-5 w-5" />
                         @if($cartCount)
                             <span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-semibold rounded-full px-2 py-0.5">{{ $cartCount }}</span>
                         @endif
                     </a>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="px-3 py-2 rounded-full bg-white/20 border border-white/30 text-sm hover:bg-white/30 transition">Logout</button>
-                    </form>
                 </div>
             </div>
 
