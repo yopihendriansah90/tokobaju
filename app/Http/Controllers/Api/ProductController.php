@@ -43,29 +43,42 @@ class ProductController extends Controller
         $products = $productsQuery->paginate($perPage)->withQueryString();
 
         return response()->json([
-            'data' => $products->getCollection()->map(function (Product $product) {
-                $images = $product->getMedia('products')->map(fn ($media) => $media->getUrl())->values();
-
-                return [
-                    'id' => $product->id,
-                    'name' => $product->name,
-                    'slug' => $product->slug,
-                    'price' => (string) $product->price,
-                    'stock' => $product->stock,
-                    'is_featured' => (bool) $product->is_featured,
-                    'thumbnail_url' => $images->first(),
-                    'images' => $images,
-                    'category' => $product->category ? [
-                        'id' => $product->category->id,
-                        'name' => $product->category->name,
-                        'slug' => $product->category->slug,
-                    ] : null,
-                ];
-            }),
+            'data' => $products->getCollection()->map(fn (Product $product) => $this->transformProductListItem($product)),
             'meta' => [
                 'current_page' => $products->currentPage(),
                 'per_page' => $products->perPage(),
                 'total' => $products->total(),
+            ],
+            'links' => [
+                'next' => $products->nextPageUrl(),
+                'prev' => $products->previousPageUrl(),
+            ],
+        ]);
+    }
+
+    public function featured(Request $request)
+    {
+        $sort = $request->query('sort', 'latest');
+        $perPage = $this->sanitizePerPage($request->query('per_page', 12));
+
+        $productsQuery = Product::with('category')
+            ->where('is_featured', true);
+
+        $productsQuery = match ($sort) {
+            'price_asc' => $productsQuery->orderBy('price'),
+            'price_desc' => $productsQuery->orderByDesc('price'),
+            default => $productsQuery->latest(),
+        };
+
+        $products = $productsQuery->paginate($perPage)->withQueryString();
+
+        return response()->json([
+            'data' => $products->getCollection()->map(fn (Product $product) => $this->transformProductListItem($product)),
+            'meta' => [
+                'current_page' => $products->currentPage(),
+                'per_page' => $products->perPage(),
+                'total_featured' => $products->total(),
+                'total_products' => Product::count(),
             ],
             'links' => [
                 'next' => $products->nextPageUrl(),
@@ -111,6 +124,27 @@ class ProductController extends Controller
             ->filter()
             ->values()
             ->all();
+    }
+
+    private function transformProductListItem(Product $product): array
+    {
+        $images = $product->getMedia('products')->map(fn ($media) => $media->getUrl())->values();
+
+        return [
+            'id' => $product->id,
+            'name' => $product->name,
+            'slug' => $product->slug,
+            'price' => (string) $product->price,
+            'stock' => $product->stock,
+            'is_featured' => (bool) $product->is_featured,
+            'thumbnail_url' => $images->first(),
+            'images' => $images,
+            'category' => $product->category ? [
+                'id' => $product->category->id,
+                'name' => $product->category->name,
+                'slug' => $product->category->slug,
+            ] : null,
+        ];
     }
 
     private function sanitizePerPage(mixed $value): int
